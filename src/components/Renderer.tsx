@@ -8,6 +8,7 @@ import BlockRenderer from './BlockRenderer';
 const BlockTypeNotations = new Map<string, BlockTypes>()
 BlockTypeNotations.set("#", BlockTypes.h1)
 BlockTypeNotations.set("##", BlockTypes.h2)
+BlockTypeNotations.set("-", BlockTypes.ul)
 
 const Renderer = () => {
   
@@ -66,22 +67,6 @@ const Renderer = () => {
           )}
         </For>
       </div>
-
-      {/*
-
-      <Switch
-        fallback={
-          <p>{content()}</p>
-        }
-      >
-        <Match when={type() === BlockTypes.h1}>
-          <h1>{content()}</h1>
-        </Match>
-        <Match when={type() === BlockTypes.h2}>
-          <h2>{content()}</h2>
-        </Match>
-      </Switch>
-        */}
     </div>
   );
 }

@@ -7,3 +7,8 @@ v2:
 v3:
 - Changed the look of the site
 - To add the bold and italic stuff next
+
+
+### searches
+- HTML Lists
+- how to denote any character in regex
