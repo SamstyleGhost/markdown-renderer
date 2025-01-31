@@ -1,4 +1,4 @@
-import { createSignal, JSX, useContext } from 'solid-js'
+import { useContext } from 'solid-js'
 import './../styles/writer.css'
 import { RendererContext } from '../context'
 const Writer = () => {
@@ -6,7 +6,7 @@ const Writer = () => {
   const value = useContext(RendererContext)
   
   return (
-    <div class="parent">
+    <div class="writer_container">
       <h1>Writer</h1>
       <textarea onInput={(event) => value?.setBlockStore(event.target.value)} />
     </div>
