@@ -1,15 +1,19 @@
-import { createEffect, type Component } from "solid-js"
+import { type Component } from "solid-js"
 import { Block, BlockTypes } from "../types"
 
 const BlockRenderer : Component<Block> = (props) => {
   
   const renderInlineElements = () => {
-    const searchRegex: RegExp = /(\*[^\*]+\*)/g
+    const searchRegex: RegExp = /(\*\*[^*]+\*\*|\*[^*]+\*)/g
     const parts = props.content.split(searchRegex)
     return (
       <>
         {parts.map(part => 
-          part.match(searchRegex) ? <i>{part.replace(/\*/g, "")}</i> : part
+          part.match(/^\*\*([^*]+)\*\*$/) ?
+            <b>{part.replace(/\*\*/g, "")}</b> : 
+          part.match(/^\*([^*]+)\*$/) ?
+            <i>{part.replace(/\*/g, "")}</i>
+          : part
         )}
       </>
     )
@@ -24,6 +28,8 @@ const BlockRenderer : Component<Block> = (props) => {
       return <h2>{props.content.substring(props.content.indexOf(" ") + 1)}</h2>;
     case BlockTypes.ul:
       return <li>{props.content.substring(props.content.indexOf(" ") + 1)}</li>;
+    case BlockTypes.break:
+      return <hr />;
     default:
       break;
   }

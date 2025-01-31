@@ -1,14 +1,16 @@
-import { createEffect, createSignal, For, Match, Switch, useContext } from 'solid-js';
+import { createEffect, For, useContext } from 'solid-js';
 import { RendererContext } from '../context';
 import './../styles/renderer.css'
 import { BlockTypes, Block } from '../types';
 import { createStore } from 'solid-js/store';
 import BlockRenderer from './BlockRenderer';
 
-const BlockTypeNotations = new Map<string, BlockTypes>()
-BlockTypeNotations.set("#", BlockTypes.h1)
-BlockTypeNotations.set("##", BlockTypes.h2)
-BlockTypeNotations.set("-", BlockTypes.ul)
+const BlockTypeNotations = new Map<string, BlockTypes>([
+  ["#", BlockTypes.h1],
+  ["##", BlockTypes.h2],
+  ["-", BlockTypes.ul],
+  ["---", BlockTypes.break]
+]);
 
 const Renderer = () => {
   

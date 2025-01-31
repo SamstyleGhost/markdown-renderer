@@ -2,7 +2,8 @@ export enum BlockTypes {
   p,
   h1,
   h2,
-  ul
+  ul,
+  break
 }
 
 export interface Block {

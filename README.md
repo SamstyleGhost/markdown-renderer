@@ -6,9 +6,16 @@ v2:
 
 v3:
 - Changed the look of the site
-- To add the bold and italic stuff next
+
+v4:
+- Added italic stuff
+
+v5:
+- Added bold
+- Added line breaks
 
 
 ### searches
 - HTML Lists
 - how to denote any character in regex
+- Regex stuff (This is exhausting)
