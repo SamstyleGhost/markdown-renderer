@@ -17,7 +17,7 @@ const Writer = () => {
   return (
     <div class="writer_container">
       <h1>Writer</h1>
-      <textarea onInput={handleChange} />
+      <textarea onInput={handleChange} rows={40} />
     </div>
   )
 }

@@ -1,3 +1,9 @@
 .parent {
   display: flex;
 }
+body {
+  background: #08082a;
+  color: white;
+  height: 100dvh;
+  overflow: hidden;
+}

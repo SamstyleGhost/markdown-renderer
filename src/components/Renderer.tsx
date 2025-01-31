@@ -13,9 +13,6 @@ const Renderer = () => {
   
   const value = useContext(RendererContext)
   const [blocks, setBlocks] = createStore<Block[]>([])
-  const [type, setType] = createSignal<BlockTypes>(BlockTypes.p);
-  const [content, setContent] = createSignal<string>("");
-  
 
   // So, I plan to have a middleman that converts the texts into blocks and then I can work on rendering the blocks themselves
   // Can maybe use refs to append the blocks to the parent
@@ -62,14 +59,15 @@ const Renderer = () => {
   return (
     <div class="renderer_container">
       <h1>Renderer</h1>
-      <For each={blocks}>
-        {(item, index) => (
-          <BlockRenderer type={item.type} content={item.content} />
-        )}
-      </For>
+      <div class='renderer_inner_container'>
+        <For each={blocks}>
+          {(item, index) => (
+            <BlockRenderer type={item.type} content={item.content} />
+          )}
+        </For>
+      </div>
 
-      {
-        /*
+      {/*
 
       <Switch
         fallback={
@@ -83,10 +81,9 @@ const Renderer = () => {
           <h2>{content()}</h2>
         </Match>
       </Switch>
-        */
-      }
+        */}
     </div>
-  )
+  );
 }
 
 export default Renderer;
