@@ -1,29 +1,54 @@
-import { createEffect, createSignal, Match, Switch, useContext } from 'solid-js';
+import { createEffect, createSignal, For, Match, Switch, useContext } from 'solid-js';
 import { RendererContext } from '../context';
 import './../styles/renderer.css'
+import { BlockTypes, Block } from '../types';
+import { createStore } from 'solid-js/store';
+import BlockRenderer from './BlockRenderer';
+
+const BlockTypeNotations = new Map<string, BlockTypes>()
+BlockTypeNotations.set("#", BlockTypes.h1)
+BlockTypeNotations.set("##", BlockTypes.h2)
 
 const Renderer = () => {
   
   const value = useContext(RendererContext)
-  const [type, setType] = createSignal("p");
+  const [blocks, setBlocks] = createStore<Block[]>([])
+  const [type, setType] = createSignal<BlockTypes>(BlockTypes.p);
   const [content, setContent] = createSignal<string>("");
   
-  createEffect(() => {
-    if (value) {
-      const currContent = value.blockStore()
-      const currType = currContent.substring(0, currContent.indexOf(" "));
+
+  // So, I plan to have a middleman that converts the texts into blocks and then I can work on rendering the blocks themselves
+  // Can maybe use refs to append the blocks to the parent
+
+  const convertStringContentToBlocks = (currBlocks : string[]) => {
+    
+    let currBlocksToPush : Block[] = []
+    
+    for (let markdownContent of currBlocks) {
+      const currBlock = {} as Block;
+      const currTypeString = markdownContent.substring(
+        0,
+        markdownContent.indexOf(" ")
+      );
+
+      const currType = BlockTypeNotations.get(currTypeString);
+      if (currType === undefined) currBlock.type = BlockTypes.p;
+      else currBlock.type = currType;
+      currBlock.content = markdownContent;
       
-      setContent(currContent.substring(currContent.indexOf(" ") + 1))
+      currBlocksToPush.push(currBlock)
+    } 
+    
+    setBlocks(currBlocksToPush)
+  }
 
-      if (currType === "#") {
-        setType("h1");
-      } else if (currType === "##") {
-        setType("h2");
-      } else {
-        setType("p");
-      }
-    }
+  createEffect(() => {
+    if(!value) return
 
+    const currContent = value.blockStore();
+    const currBlocks = currContent.split("\n");
+    convertStringContentToBlocks(currBlocks)
+    
   })
   
   /*
@@ -37,18 +62,29 @@ const Renderer = () => {
   return (
     <div class="renderer_container">
       <h1>Renderer</h1>
+      <For each={blocks}>
+        {(item, index) => (
+          <BlockRenderer type={item.type} content={item.content} />
+        )}
+      </For>
+
+      {
+        /*
+
       <Switch
         fallback={
           <p>{content()}</p>
         }
       >
-        <Match when={type() === "h1"}>
+        <Match when={type() === BlockTypes.h1}>
           <h1>{content()}</h1>
         </Match>
-        <Match when={type() === "h2"}>
+        <Match when={type() === BlockTypes.h2}>
           <h2>{content()}</h2>
         </Match>
       </Switch>
+        */
+      }
     </div>
   )
 }
